@@ -5,3 +5,4 @@ seaborn>=0.10.0
 torch==1.6.0
 tensorflow==2.3.0
 json>=2.0.9
+./tabnet_prebuilt/pytorch_tabnet-2.0.0-py3-none-any.whl
