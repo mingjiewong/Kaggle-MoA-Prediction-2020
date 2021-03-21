@@ -1,5 +1,6 @@
 from tabnet_moa.preprocessing import Load, RankGaussPCA, Preprocess
 from tabnet_moa.prediction import Config, LogitsLogLoss, RunTabnet
+from gaussrank.gauss_rank_scaler import GaussRankScaler
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -13,8 +14,8 @@ if __name__ == '__main__':
     load = Load(train_features=train_filename, train_targets_scored=targets_filename, test_features=test_filename, submission=submission_filename)
     loaded_train, loaded_test, loaded_targets = load.drop_ctl_vehicle()
 
-    rank_gauss_pca = RankGaussPCA()
-    scaled_data_all = rank_gauss_pca.rankgauss(loaded_train, loaded_test)
+    rank_gauss_pca = ScaledPCA(scaler=GaussRankScaler)
+    scaled_data_all = rank_gauss_pca.run_scaling(loaded_train, loaded_test)
     concat_data_all = rank_gauss_pca.run_pca(scaled_data_all)
     encoded_data_all = rank_gauss_pca.one_hot_encoding(concat_data_all)
 
