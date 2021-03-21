@@ -14,7 +14,7 @@ if __name__ == '__main__':
     load = Load(train_features=train_filename, train_targets_scored=targets_filename, test_features=test_filename, submission=submission_filename)
     loaded_train, loaded_test, loaded_targets = load.drop_ctl_vehicle()
 
-    gauss_rank_pca = ScaledPCA(scaler=GaussRankScaler)
+    gauss_rank_pca = ScaledPCA(scaler=GaussRankScaler())
     scaled_data_all = gauss_rank_pca.run_scaling(loaded_train, loaded_test)
     concat_data_all = gauss_rank_pca.run_pca(scaled_data_all)
     encoded_data_all = gauss_rank_pca.one_hot_encoding(concat_data_all)
