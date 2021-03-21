@@ -10,7 +10,7 @@ The repository contains an implemented [TabNet](https://github.com/dreamquark-ai
 Clone the repo:
 ```
 git clone https://github.com/mingjiewong/Kaggle-MoA-Prediction-2020.git
-cd Kaggle-M5-Forecasting-Accuracy-2020
+cd Kaggle-MoA-Prediction-2020
 ```
 
 Download raw data from Kaggle at ```https://www.kaggle.com/c/lish-moa/data``` and extract it:
