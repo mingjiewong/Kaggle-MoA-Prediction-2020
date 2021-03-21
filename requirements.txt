@@ -1,6 +1,6 @@
 tqdm>=4.45.0
 pandas>=1.1.3
-numpy==1.18.5
+numpy
 torch
 sklearn
 ./tabnet_prebuilt/pytorch_tabnet-2.0.0-py3-none-any.whl
