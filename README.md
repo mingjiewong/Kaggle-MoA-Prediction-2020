@@ -35,4 +35,4 @@ python main.py
 
 * [Iterative Stratification](https://github.com/trent-b/iterative-stratification)
 * [Gauss Rank Scaler](https://www.kaggle.com/liuhdme/rank-gauss)
-* [TabNet](https://github.com/dreamquark-ai/tabnet)
+* [TabNet](https://www.kaggle.com/hiramcho/moa-tabnet-with-pca-rank-gauss)
