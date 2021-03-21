@@ -18,8 +18,8 @@ class Config(object):
       tabnet_params (dict): dictionary of TabNet model parameters
     '''
     def __init__(self):
-        self.MAX_EPOCH = 200
-        self.NB_SPLITS = 12
+        self.MAX_EPOCH = 5 #200
+        self.NB_SPLITS = 2 #12
         self.tabnet_params = dict(
             n_d = 32,
             n_a = 32,
