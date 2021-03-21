@@ -1,7 +1,7 @@
 # Kaggle Mechanism of Action (MoA) Prediction 2020
 **_Background_**
 ***
-The repository contains a solution, based on [TabNet](https://github.com/dreamquark-ai/tabnet), to the [MoA Prediction Competition](https://www.kaggle.com/c/lish-moa) held on Kaggle between Sep 3 and Dec 1, 2020. Check out my [profile](https://www.kaggle.com/mwong007)!
+The repository contains solution, based on [TabNet](https://github.com/dreamquark-ai/tabnet), to the [MoA Prediction Competition](https://www.kaggle.com/c/lish-moa) held on Kaggle between Sep 3 and Dec 1, 2020. Check out my [profile](https://www.kaggle.com/mwong007)!
 
 ![image](https://github.com/mingjiewong/Kaggle-MoA-Prediction-2020/blob/master/Figure1.png)
 
