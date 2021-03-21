@@ -5,11 +5,11 @@ import warnings
 warnings.filterwarnings("ignore")
 
 if __name__ == '__main__':
-    train_filename = '../input/lish-moa/train_features.csv'
-    targets_filename = '../input/lish-moa/train_targets_scored.csv'
-    test_filename = '../input/lish-moa/test_features.csv'
-    submission_filename = '../input/lish-moa/sample_submission.csv'
-    
+    train_filename = './datasets/lish-moa/train_features.csv'
+    targets_filename = './datasets/lish-moa/train_targets_scored.csv'
+    test_filename = './datasets/lish-moa/test_features.csv'
+    submission_filename = './datasets/lish-moa/sample_submission.csv'
+
     load = Load(train_features=train_filename, train_targets_scored=targets_filename, test_features=test_filename, submission=submission_filename)
     loaded_train, loaded_test, loaded_targets = load.drop_ctl_vehicle()
 
