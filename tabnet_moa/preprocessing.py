@@ -6,8 +6,6 @@ import tqdm
 import numpy as np
 import pandas as pd
 
-sys.path.append("../gaussrank/")
-from gauss_rank_scaler import GaussRankScaler
 from sklearn.decomposition import PCA
 
 random.seed(42)
@@ -55,8 +53,8 @@ class Load:
 
         return train, test, targets
 
-class RankGaussPCA:
-    def __init__(self):
+class ScaledPCA:
+    def __init__(self, scaler):
         '''
         Load parameters for scaling features and pca in input data.
 
@@ -66,14 +64,14 @@ class RankGaussPCA:
           ncompo_genes (int): number of principal components for genes
           ncompo_cells (int): number of principal components for cells
         '''
-        self.scaler = GaussRankScaler()
+        self.scaler = scaler
         self.variance_threshold = 0.9
         self.ncompo_genes = 80
         self.ncompo_cells = 10
 
     def rankgauss(self, loaded_train, loaded_test):
         '''
-        Transform input data by scaling numeric features to normal distributions.
+        Transform input data by scaling numeric features.
 
         Args:
           loaded_train (dataframe): input data of features for train data
