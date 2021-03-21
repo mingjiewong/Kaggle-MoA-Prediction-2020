@@ -1,3 +1,4 @@
+import numpy as np
 import torch.optim as optim
 from torch.nn import functional as F
 from torch.optim.lr_scheduler import ReduceLROnPlateau
