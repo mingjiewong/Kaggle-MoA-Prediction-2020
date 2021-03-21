@@ -175,11 +175,6 @@ class Preprocess:
 
         test_df = data_all[train_df.shape[0]: ]
         test_df.reset_index(drop = True, inplace = True)
-
-        print(f"train_df.shape: {train_df.shape}")
-        print(f"test_df.shape: {test_df.shape}")
-
         X_test = test_df.values
-        print(f"X_test.shape: {X_test.shape}")
 
         return train_df, test_df, X_test
