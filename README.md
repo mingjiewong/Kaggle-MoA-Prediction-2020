@@ -29,3 +29,10 @@ Run the model (from root of the repo):
 ```
 python main.py
 ```
+
+**_Acknowledgements_**
+***
+
+* [Iterative Stratification](https://github.com/trent-b/iterative-stratification)
+* [Rank Gauss Scaler](https://www.kaggle.com/liuhdme/rank-gauss)
+* [TabNet](https://github.com/dreamquark-ai/tabnet)
