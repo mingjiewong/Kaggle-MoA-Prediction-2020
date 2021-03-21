@@ -1,4 +1,4 @@
-from tabnet_moa.preprocessing import Load, RankGaussPCA, Preprocess
+from tabnet_moa.preprocessing import Load, ScaledPCA, Preprocess
 from tabnet_moa.prediction import Config, LogitsLogLoss, RunTabnet
 from gaussrank.gauss_rank_scaler import GaussRankScaler
 
