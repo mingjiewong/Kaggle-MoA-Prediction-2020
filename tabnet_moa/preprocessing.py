@@ -69,7 +69,7 @@ class ScaledPCA:
         self.ncompo_genes = 80
         self.ncompo_cells = 10
 
-    def rankgauss(self, loaded_train, loaded_test):
+    def run_scaling(self, loaded_train, loaded_test):
         '''
         Transform input data by scaling numeric features.
 
