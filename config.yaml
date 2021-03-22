@@ -4,8 +4,8 @@
 
 MAX_EPOCH: 200
 NB_SPLITS: 12
-tabnet_params: dict(n_d = 32, n_a = 32, n_steps = 1, gamma = 1.3, lambda_sparse = 0,
-  optimizer_fn = optim.Adam, optimizer_params = dict(lr = 2e-2, weight_decay = 1e-5),
-  mask_type = "entmax",
-  scheduler_params = dict(mode = "min", patience = 5, min_lr = 1e-5, factor = 0.9),
-  scheduler_fn = ReduceLROnPlateau, seed = 42, verbose = 10)
+n_d: 32
+n_a: 32
+n_steps: 1
+gamma: 1.3
+lambda_sparse: 0
