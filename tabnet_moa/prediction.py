@@ -10,37 +10,12 @@ from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
 from pytorch_tabnet.tab_model import TabNetRegressor
 from pytorch_tabnet.metrics import Metric
 from sklearn.metrics import roc_auc_score
+from data_processing.helpers import Config
 
 random.seed(42)
 np.random.seed(42)
 torch.manual_seed(42)
 os.environ["PYTHONHASHSEED"] = str(42)
-
-class Config(object):
-    '''
-    Load model parameters.
-
-    Attributes:
-      MAX_EPOCH (int): number of epochs
-      NB_SPLITS (int): number of splits
-      tabnet_params (dict): dictionary of TabNet model parameters
-    '''
-    def __init__(self):
-        self.MAX_EPOCH = 200
-        self.NB_SPLITS = 12
-        self.tabnet_params = dict(
-            n_d = 32,
-            n_a = 32,
-            n_steps = 1,
-            gamma = 1.3,
-            lambda_sparse = 0,
-            optimizer_fn = optim.Adam,
-            optimizer_params = dict(lr = 2e-2, weight_decay = 1e-5),
-            mask_type = "entmax",
-            scheduler_params = dict(mode = "min", patience = 5, min_lr = 1e-5, factor = 0.9),
-            scheduler_fn = ReduceLROnPlateau,
-            seed = 42,
-            verbose = 10)
 
 class LogitsLogLoss(Metric):
     def __init__(self):
@@ -70,22 +45,19 @@ class LogitsLogLoss(Metric):
         return np.mean(-aux)
 
 class RunTabnet:
-    def __init__(self, MAX_EPOCH, NB_SPLITS):
+    def __init__(self, config_path='')):
         '''
         Load number of epochs and splits for multi-label stratified k-fold cross validation.
 
         Args:
-          MAX_EPOCH (int): number of epochs
-          NB_SPLITS (int): number of splits
+          config_path (str): file path for config.yaml
 
         Attributes:
-          MAX_EPOCH (int): number of epochs
-          NB_SPLITS (int): number of splits
+          config (dict): parameter configurations from config.yaml
         '''
-        self.MAX_EPOCH =  MAX_EPOCH
-        self.NB_SPLITS =  NB_SPLITS
+        self.config = Config(config_path)
 
-    def run_model(self, train_df, targets, X_test, tabnet_params):
+    def run_model(self, train_df, targets, X_test):
         '''
         Run model.
 
@@ -95,7 +67,6 @@ class RunTabnet:
           targets (dataframe): updated input data of known responses (binary) from MoA targets for train data
           X_test (arr): test inputs with dimensions
             [n_observations,n_features]
-          tabnet_params (dict): dictionary of TabNet model parameters
 
         Returns:
           test_preds_all (arr): predicted outputs with dimensions
@@ -106,7 +77,7 @@ class RunTabnet:
         oof_targets = []
         scores = []
 
-        mskf = MultilabelStratifiedKFold(n_splits = self.NB_SPLITS, random_state = 0, shuffle = True)
+        mskf = MultilabelStratifiedKFold(n_splits = self.config.NB_SPLITS, random_state = 0, shuffle = True)
 
         for fold_nb, (train_idx, val_idx) in enumerate(mskf.split(train_df, targets)):
             print("FOLDS: ", fold_nb + 1)
@@ -115,7 +86,7 @@ class RunTabnet:
             X_train, y_train = train_df.values[train_idx, :], targets.values[train_idx, :]
             X_val, y_val = train_df.values[val_idx, :], targets.values[val_idx, :]
 
-            model = TabNetRegressor(**tabnet_params)
+            model = TabNetRegressor(**self.config.tabnet_params)
 
             model.fit(
                 X_train = X_train,
@@ -123,7 +94,7 @@ class RunTabnet:
                 eval_set = [(X_val, y_val)],
                 eval_name = ["val"],
                 eval_metric = ["logits_ll"],
-                max_epochs = self.MAX_EPOCH,
+                max_epochs = self.config.MAX_EPOCH,
                 patience = 20,
                 batch_size = 1024,
                 virtual_batch_size = 32,
