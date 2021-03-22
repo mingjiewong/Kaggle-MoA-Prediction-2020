@@ -4,5 +4,5 @@ numpy
 torch
 sklearn
 pyyaml
-./tabnet_prebuilt/pytorch_tabnet-2.0.0-py3-none-any.whl
-./iterstrat_prebuilt/iterative-stratification/
+./dep/tabnet/pytorch_tabnet-2.0.0-py3-none-any.whl
+./dep/iterstrat/iterative-stratification/
