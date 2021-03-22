@@ -44,7 +44,7 @@ class LogitsLogLoss(Metric):
         aux = (1 - y_true) * np.log(1 - logits + 1e-15) + y_true * np.log(logits + 1e-15)
         return np.mean(-aux)
 
-class RunTabnet:
+class RunTabNet:
     def __init__(self, config_path=''):
         '''
         Load number of epochs and splits for multi-label stratified k-fold cross validation.
@@ -56,6 +56,15 @@ class RunTabnet:
           config (dict): parameter configurations from config.yaml
         '''
         self.config = Config(config_path)
+        self.tabnet_params = dict(n_d = self.config.n_d, n_a = self.config.n_a,
+          n_steps = self.config.n_steps, gamma = self.config.gamma,
+          lambda_sparse = self.config.lambda_sparse, optimizer_fn = optim.Adam,
+          optimizer_params = dict(lr = 2e-2, weight_decay = 1e-5),
+          mask_type = "entmax",
+          scheduler_params = dict(mode = "min", patience = 5, min_lr = 1e-5, factor = 0.9),
+          scheduler_fn = ReduceLROnPlateau,
+          seed = 42,
+          verbose = 10)
 
     def run_model(self, train_df, targets, X_test):
         '''
@@ -86,7 +95,7 @@ class RunTabnet:
             X_train, y_train = train_df.values[train_idx, :], targets.values[train_idx, :]
             X_val, y_val = train_df.values[val_idx, :], targets.values[val_idx, :]
 
-            model = TabNetRegressor(**self.config.tabnet_params)
+            model = TabNetRegressor(**self.tabnet_params)
 
             model.fit(
                 X_train = X_train,
