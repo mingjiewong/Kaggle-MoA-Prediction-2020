@@ -1,5 +1,5 @@
 from tabnet_moa.preprocessing import Load, ScaledPCA, Preprocess
-from tabnet_moa.prediction import Config, LogitsLogLoss, RunTabnet
+from tabnet_moa.prediction import Config, LogitsLogLoss, RunTabNet
 from gaussrank.gauss_rank_scaler import GaussRankScaler
 
 import warnings
@@ -28,7 +28,7 @@ if __name__ == '__main__':
     train_df, test_df, X_test = preprocess.gen_train_data(data_all=encoded_data_all, loaded_train=loaded_train, loaded_targets=loaded_targets)
 
     ### Run TabNet model
-    run_tabnet = RunTabnet(config_path=yaml_filename)
+    run_tabnet = RunTabNet(config_path=yaml_filename)
     test_preds_all = run_tabnet.run_model(train_df=train_df, targets=loaded_targets, X_test=X_test)
 
     ### Predict the responses of MoA targets from trained TabNet model
