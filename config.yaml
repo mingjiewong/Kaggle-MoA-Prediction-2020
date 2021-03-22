@@ -1,8 +1,8 @@
 #===================================
 # General Params for TabNet
 #===================================
-MAX_EPOCH: 5
-NB_SPLITS: 4
+MAX_EPOCH: 200
+NB_SPLITS: 12
 
 #===================================
 # TabNet Model Params
