@@ -1,9 +1,14 @@
 #===================================
-# TabNet Model Params
+# General Params for TabNet
 #===================================
 
 MAX_EPOCH: 5
 NB_SPLITS: 2
+
+#===================================
+# TabNet Model Params
+#===================================
+
 n_d: 32
 n_a: 32
 n_steps: 1
