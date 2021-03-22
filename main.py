@@ -11,6 +11,7 @@ if __name__ == '__main__':
     targets_filename = './datasets/lish-moa/train_targets_scored.csv'
     test_filename = './datasets/lish-moa/test_features.csv'
     submission_filename = './datasets/lish-moa/sample_submission.csv'
+    yaml_filename = './config.yaml'
 
     ### Identify treated samples from train and test data
     load = Load(train_features=train_filename, train_targets_scored=targets_filename, test_features=test_filename, submission=submission_filename)
@@ -27,9 +28,8 @@ if __name__ == '__main__':
     train_df, test_df, X_test = preprocess.gen_train_data(data_all=encoded_data_all, loaded_train=loaded_train, loaded_targets=loaded_targets)
 
     ### Run TabNet model
-    cfg = Config()
-    run_tabnet = RunTabnet(MAX_EPOCH=cfg.MAX_EPOCH, NB_SPLITS=cfg.NB_SPLITS)
-    test_preds_all = run_tabnet.run_model(train_df=train_df, targets=loaded_targets, X_test=X_test, tabnet_params=cfg.tabnet_params)
+    run_tabnet = RunTabnet(config_path=yaml_filename)
+    test_preds_all = run_tabnet.run_model(train_df=train_df, targets=loaded_targets, X_test=X_test, config_path=yaml_filename)
 
     ### Predict the responses of MoA targets from trained TabNet model
     submission_results = run_tabnet.gen_csv(test_preds_all=test_preds_all, test=loaded_test, submission=load.submission)
