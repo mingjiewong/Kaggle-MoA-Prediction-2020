@@ -45,7 +45,7 @@ class LogitsLogLoss(Metric):
         return np.mean(-aux)
 
 class RunTabnet:
-    def __init__(self, config_path='')):
+    def __init__(self, config_path=''):
         '''
         Load number of epochs and splits for multi-label stratified k-fold cross validation.
 
