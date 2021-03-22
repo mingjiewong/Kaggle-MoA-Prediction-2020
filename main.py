@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     ### Run TabNet model
     run_tabnet = RunTabnet(config_path=yaml_filename)
-    test_preds_all = run_tabnet.run_model(train_df=train_df, targets=loaded_targets, X_test=X_test, config_path=yaml_filename)
+    test_preds_all = run_tabnet.run_model(train_df=train_df, targets=loaded_targets, X_test=X_test)
 
     ### Predict the responses of MoA targets from trained TabNet model
     submission_results = run_tabnet.gen_csv(test_preds_all=test_preds_all, test=loaded_test, submission=load.submission)
