@@ -58,6 +58,9 @@ class ScaledPCA:
         '''
         Load parameters for scaling features and pca in input data.
 
+        Args:
+          scaler (obj): scaler
+
         Attributes:
           scaler (obj): scaler
           variance_threshold (int): threshold of variance
