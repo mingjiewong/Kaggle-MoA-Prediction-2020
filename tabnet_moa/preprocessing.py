@@ -40,9 +40,9 @@ class Load:
         Drop samples with control perturbations since control perturbations have no MoAs.
 
         Returns:
-          train (dataframe): updated input data of features for train data
-          test (dataframe): updated input data of features for test data
-          targets (dataframe): updated input data of known responses (binary) from MoA targets for train data
+          dataframe: updated input data of features for train data
+          dataframe: updated input data of features for test data
+          dataframe: updated input data of known responses (binary) from MoA targets for train data
         '''
         train = self.train[self.train["cp_type"] != "ctl_vehicle"]
         test = self.test[self.test["cp_type"] != "ctl_vehicle"]
@@ -78,7 +78,7 @@ class ScaledPCA:
           loaded_test (dataframe): input data of features for test data
 
         Returns:
-          data_all (dataframe): transformed input data of features for train and test data
+          dataframe: transformed input data of features for train and test data
         '''
         data_all = pd.concat([loaded_train, loaded_test], ignore_index=True)
         cols_numeric = [feat for feat in list(data_all.columns) if feat not in ["sig_id", "cp_type", "cp_time", "cp_dose"]]
@@ -98,7 +98,7 @@ class ScaledPCA:
           scaled_data_all (dataframe): input data of features for train and test data
 
         Returns:
-          concat_data_all (dataframe): input data of original features and principal component features for train and test data
+          dataframe: input data of original features and principal component features for train and test data
         '''
         GENES = [col for col in scaled_data_all.columns if col.startswith("g-")]
         CELLS = [col for col in scaled_data_all.columns if col.startswith("c-")]
@@ -122,7 +122,7 @@ class ScaledPCA:
           concat_data_all (dataframe): input data of features for train and test data
 
         Returns:
-          encoded_data_all (dataframe): input data of original and new features for train and test data
+          dataframe: input data of original and new features for train and test data
         '''
         encoded_data_all = pd.get_dummies(concat_data_all, columns = ["cp_time", "cp_dose"])
 
@@ -157,11 +157,11 @@ class Preprocess:
           loaded_targets (dataframe): input data of known responses (binary) from MoA targets for train data
 
         Returns:
-          train_df (dataframe): training inputs with dimensions
+          dataframe: training inputs with dimensions
             [n_observations,n_features]
-          test_df (dataframe): test inputs with dimensions
+          dataframe: test inputs with dimensions
             [n_observations,n_features]
-          X_test (arr): test inputs with dimensions
+          arr: test inputs with dimensions
             [n_observations,n_features]
         '''
         data_all.drop(self.features_to_drop, axis = 1, inplace = True)
