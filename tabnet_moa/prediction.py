@@ -54,6 +54,7 @@ class RunTabNet:
 
         Attributes:
           config (dict): parameter configurations from config.yaml
+          tabnet_params (dict): parameter configurations for TabNet
         '''
         self.config = Config(config_path)
         self.tabnet_params = dict(n_d = self.config.n_d, n_a = self.config.n_a,
