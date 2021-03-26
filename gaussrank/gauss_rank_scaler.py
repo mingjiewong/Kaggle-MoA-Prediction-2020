@@ -41,7 +41,7 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
             [n_samples, n_features]
 
         Returns:
-          interp_func_ (arr): list of interpolation functions for each feature in the training set
+          arr: list of interpolation functions for each feature in the training set
         '''
         X = check_array(X, copy=self.copy, estimator=self, dtype=FLOAT_DTYPES, force_all_finite=True)
 
@@ -49,6 +49,15 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
         return self
 
     def _fit(self, x):
+        '''
+        Generate the interpolated input data.
+
+        Args:
+          x (arr): input data `x`
+
+        Returns:
+          arr: interpolated input data
+        '''
         x = self.drop_duplicates(x)
         rank = np.argsort(np.argsort(x))
         bound = 1.0 - self.epsilon
@@ -67,7 +76,7 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
           copy (bool): make internal copy of input data `x`
 
         Returns:
-          X (arr): transformed input data
+          arr: transformed input data
         '''
         check_is_fitted(self, 'interp_func_')
 
@@ -78,6 +87,16 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
         return X
 
     def _transform(self, i, x):
+        '''
+        Generate the inverse of the error function of an interpolated input data.
+
+        Args:
+          x (arr): input data `x`
+          i (int): index of the list of interpolation functions
+
+        Returns:
+          arr: inverse of the error function of an i-th interpolated input data
+        '''
         return erfinv(self.interp_func_[i](x))
 
     def inverse_transform(self, X, copy=None):
@@ -90,7 +109,7 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
           copy (bool): make internal copy of input data `x`
 
         Returns:
-          X (arr): transformed input data
+          arr: transformed input data
         '''
         check_is_fitted(self, 'interp_func_')
 
@@ -101,12 +120,31 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
         return X
 
     def _inverse_transform(self, i, x):
+        '''
+        Generate the inverse interpolation of the error function of input data.
+
+        Args:
+          x (arr): input data `x`
+          i (int): index of the list of interpolation functions
+
+        Returns:
+          arr: inverse i-th interpolation of the error function of input data
+        '''
         inv_interp_func = interp1d(self.interp_func_[i].y, self.interp_func_[i].x, kind=self.interp_kind,
                                    copy=self.interp_copy, fill_value=self.fill_value)
         return inv_interp_func(erf(x))
 
     @staticmethod
     def drop_duplicates(x):
+        '''
+        Drop duplicates from input data.
+
+        Args:
+          x (arr): input data `x`
+
+        Returns:
+          arr: unique input data
+        '''
         is_unique = np.zeros_like(x, dtype=bool)
         is_unique[np.unique(x, return_index=True)[1]] = True
         return x[is_unique]
