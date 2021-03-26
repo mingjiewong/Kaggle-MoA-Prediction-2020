@@ -40,8 +40,8 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
           X (arr): input data with dimensions
             [n_samples, n_features]
 
-        Returns:
-          arr: list of interpolation functions for each feature in the training set
+        Attributes:
+          interp_func_ (arr): list of interpolation functions for each feature in the training set
         '''
         X = check_array(X, copy=self.copy, estimator=self, dtype=FLOAT_DTYPES, force_all_finite=True)
 
@@ -91,8 +91,8 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
         Generate the inverse of the error function of an interpolated input data.
 
         Args:
-          x (arr): input data `x`
           i (int): index of the list of interpolation functions
+          x (arr): input data `x`
 
         Returns:
           arr: inverse of the error function of an i-th interpolated input data
@@ -124,8 +124,8 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
         Generate the inverse interpolation of the error function of input data.
 
         Args:
-          x (arr): input data `x`
           i (int): index of the list of interpolation functions
+          x (arr): input data `x`
 
         Returns:
           arr: inverse i-th interpolation of the error function of input data
