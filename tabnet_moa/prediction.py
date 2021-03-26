@@ -38,7 +38,7 @@ class LogitsLogLoss(Metric):
           y_pred (arr): list of predicted values
 
         Returns:
-          np.mean(-aux) (float): log loss value
+          float: log loss value
         '''
         logits = 1 / (1 + np.exp(-y_pred))
         aux = (1 - y_true) * np.log(1 - logits + 1e-15) + y_true * np.log(logits + 1e-15)
@@ -78,7 +78,7 @@ class RunTabNet:
             [n_observations,n_features]
 
         Returns:
-          test_preds_all (arr): predicted outputs with dimensions
+          arr: predicted outputs with dimensions
             [n_splits_kfold,n_observations,n_moa_targets]
         '''
         test_cv_preds = []
@@ -147,7 +147,7 @@ class RunTabNet:
           submission(dataframe): input data of predicted responses from MoA targets for test data
 
         Returns:
-          submission (dataframe): predicted response from MoA targets for test data
+          dataframe: predicted response from MoA targets for test data
         '''
         all_feat = [col for col in submission.columns if col not in ["sig_id"]]
 
