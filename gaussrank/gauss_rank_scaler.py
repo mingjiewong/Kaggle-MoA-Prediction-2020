@@ -7,7 +7,7 @@ from sklearn.utils.validation import FLOAT_DTYPES, check_array, check_is_fitted
 
 class GaussRankScaler(BaseEstimator, TransformerMixin):
     def __init__(self, epsilon=1e-4, copy=True, n_jobs=None, interp_kind='linear', interp_copy=False):
-        '''
+        """
         Load parameters for Gauss Rank Scaler.
 
         Args:
@@ -24,7 +24,7 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
           interp_copy (bool): use references to input `x` and output data `y`
           fill_value (str):  method of filling values
           n_jobs (int): number of jobs to run in parallel
-        '''
+        """
         self.epsilon = epsilon
         self.copy = copy
         self.interp_kind = interp_kind
@@ -33,7 +33,7 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
         self.n_jobs = n_jobs
 
     def fit(self, X):
-        '''
+        """
         Fit interpolation function with input data for scaling.
 
         Args:
@@ -42,14 +42,14 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
 
         Attributes:
           interp_func_ (arr): list of interpolation functions for each feature in the training set
-        '''
+        """
         X = check_array(X, copy=self.copy, estimator=self, dtype=FLOAT_DTYPES, force_all_finite=True)
 
         self.interp_func_ = Parallel(n_jobs=self.n_jobs)(delayed(self._fit)(x) for x in X.T)
         return self
 
     def _fit(self, x):
-        '''
+        """
         Generate the interpolated input data.
 
         Args:
@@ -57,7 +57,7 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
 
         Returns:
           arr: interpolated input data
-        '''
+        """
         x = self.drop_duplicates(x)
         rank = np.argsort(np.argsort(x))
         bound = 1.0 - self.epsilon
@@ -67,7 +67,7 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
             x, scaled_rank, kind=self.interp_kind, copy=self.interp_copy, fill_value=self.fill_value)
 
     def transform(self, X, copy=None):
-        '''
+        """
         Scale the input data with the Gauss Rank algorithm.
 
         Args:
@@ -77,7 +77,7 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
 
         Returns:
           arr: transformed input data
-        '''
+        """
         check_is_fitted(self, 'interp_func_')
 
         copy = copy if copy is not None else self.copy
@@ -87,7 +87,7 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
         return X
 
     def _transform(self, i, x):
-        '''
+        """
         Generate the inverse of the error function of an interpolated input data.
 
         Args:
@@ -96,11 +96,11 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
 
         Returns:
           arr: inverse of the error function of an i-th interpolated input data
-        '''
+        """
         return erfinv(self.interp_func_[i](x))
 
     def inverse_transform(self, X, copy=None):
-        '''
+        """
         Scale the data back to the original representation.
 
         Args:
@@ -110,7 +110,7 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
 
         Returns:
           arr: transformed input data
-        '''
+        """
         check_is_fitted(self, 'interp_func_')
 
         copy = copy if copy is not None else self.copy
@@ -120,7 +120,7 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
         return X
 
     def _inverse_transform(self, i, x):
-        '''
+        """
         Generate the inverse interpolation of the error function of input data.
 
         Args:
@@ -129,14 +129,14 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
 
         Returns:
           arr: inverse i-th interpolation of the error function of input data
-        '''
+        """
         inv_interp_func = interp1d(self.interp_func_[i].y, self.interp_func_[i].x, kind=self.interp_kind,
                                    copy=self.interp_copy, fill_value=self.fill_value)
         return inv_interp_func(erf(x))
 
     @staticmethod
     def drop_duplicates(x):
-        '''
+        """
         Drop duplicates from input data.
 
         Args:
@@ -144,7 +144,7 @@ class GaussRankScaler(BaseEstimator, TransformerMixin):
 
         Returns:
           arr: unique input data
-        '''
+        """
         is_unique = np.zeros_like(x, dtype=bool)
         is_unique[np.unique(x, return_index=True)[1]] = True
         return x[is_unique]
