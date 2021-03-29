@@ -19,18 +19,18 @@ os.environ["PYTHONHASHSEED"] = str(42)
 
 class LogitsLogLoss(Metric):
     def __init__(self):
-        '''
+        """
         Load parameters for custom loss function.
 
         Attributes:
           _name (str): name
           _maximize (bool): minimum solution
-        '''
+        """
         self._name = "logits_ll"
         self._maximize = False
 
     def __call__(self, y_true, y_pred):
-        '''
+        """
         Load custom loss function.
 
         Args:
@@ -39,14 +39,14 @@ class LogitsLogLoss(Metric):
 
         Returns:
           float: log loss value
-        '''
+        """
         logits = 1 / (1 + np.exp(-y_pred))
         aux = (1 - y_true) * np.log(1 - logits + 1e-15) + y_true * np.log(logits + 1e-15)
         return np.mean(-aux)
 
 class RunTabNet:
     def __init__(self, config_path=''):
-        '''
+        """
         Load number of epochs and splits for multi-label stratified k-fold cross validation.
 
         Args:
@@ -55,7 +55,7 @@ class RunTabNet:
         Attributes:
           config (dict): parameter configurations from config.yaml
           tabnet_params (dict): parameter configurations for TabNet
-        '''
+        """
         self.config = Config(config_path)
         self.tabnet_params = dict(n_d = self.config.n_d, n_a = self.config.n_a,
           n_steps = self.config.n_steps, gamma = self.config.gamma,
@@ -68,7 +68,7 @@ class RunTabNet:
           verbose = 10)
 
     def run_model(self, train_df, targets, X_test):
-        '''
+        """
         Run model.
 
         Args:
@@ -81,7 +81,7 @@ class RunTabNet:
         Returns:
           arr: predicted outputs with dimensions
             [n_splits_kfold,n_observations,n_moa_targets]
-        '''
+        """
         test_cv_preds = []
         oof_preds = []
         oof_targets = []
@@ -138,7 +138,7 @@ class RunTabNet:
         return test_preds_all
 
     def gen_csv(self, test_preds_all, test, submission):
-        '''
+        """
         Generate the CSV file for predicted response from MoA targets.
 
         Args:
@@ -149,7 +149,7 @@ class RunTabNet:
 
         Returns:
           dataframe: predicted response from MoA targets for test data
-        '''
+        """
         all_feat = [col for col in submission.columns if col not in ["sig_id"]]
 
         sig_id = test[test["cp_type"] != "ctl_vehicle"].sig_id.reset_index(drop = True)
