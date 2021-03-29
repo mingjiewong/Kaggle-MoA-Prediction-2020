@@ -1,12 +1,13 @@
 # Kaggle Mechanism of Action (MoA) Prediction 2020
-**_Background_**
-***
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 The repository contains solution, based on [TabNet](https://github.com/dreamquark-ai/tabnet), to the [MoA Prediction Competition](https://www.kaggle.com/c/lish-moa) held on Kaggle between Sep 3 and Dec 1, 2020. Check out my [profile](https://www.kaggle.com/mwong007)!
 
 ![image](https://github.com/mingjiewong/Kaggle-MoA-Prediction-2020/blob/master/Figure1.png)
 
-**_Getting Started_**
-***
+## Getting Started
+
 Clone the repo:
 ```
 git clone https://github.com/mingjiewong/Kaggle-MoA-Prediction-2020.git
@@ -30,8 +31,7 @@ Run the model (from root of the repo):
 python main.py
 ```
 
-**_Acknowledgements_**
-***
+## Acknowledgements
 
 * [Iterative Stratification](https://github.com/trent-b/iterative-stratification)
 * [Gauss Rank Scaler](https://www.kaggle.com/liuhdme/rank-gauss)
