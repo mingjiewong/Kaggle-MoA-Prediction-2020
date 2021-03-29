@@ -15,7 +15,7 @@ os.environ["PYTHONHASHSEED"] = str(42)
 
 class Load:
     def __init__(self, train_features='', train_targets_scored='', test_features='', submission=''):
-        '''
+        """
         Read CSV files for features and binary MoA targets of train data, features of test data and submission respectively.
 
         Args:
@@ -29,21 +29,21 @@ class Load:
           targets (dataframe): input data of known responses (binary) from MoA targets for train data
           test (dataframe): input data of features for test data
           submission (dataframe): input data of predicted responses from MoA targets for test data
-        '''
+        """
         self.train = pd.read_csv(train_features)
         self.targets = pd.read_csv(train_targets_scored)
         self.test = pd.read_csv(test_features)
         self.submission = pd.read_csv(submission)
 
     def drop_ctl_vehicle(self):
-        '''
+        """
         Drop samples with control perturbations since control perturbations have no MoAs.
 
         Returns:
           dataframe: updated input data of features for train data
           dataframe: updated input data of features for test data
           dataframe: updated input data of known responses (binary) from MoA targets for train data
-        '''
+        """
         train = self.train[self.train["cp_type"] != "ctl_vehicle"]
         test = self.test[self.test["cp_type"] != "ctl_vehicle"]
         targets = self.targets.iloc[train.index]
@@ -55,7 +55,7 @@ class Load:
 
 class ScaledPCA:
     def __init__(self, scaler):
-        '''
+        """
         Load parameters for scaling features and pca in input data.
 
         Args:
@@ -66,14 +66,14 @@ class ScaledPCA:
           variance_threshold (int): threshold of variance
           ncompo_genes (int): number of principal components for genes
           ncompo_cells (int): number of principal components for cells
-        '''
+        """
         self.scaler = scaler
         self.variance_threshold = 0.9
         self.ncompo_genes = 80
         self.ncompo_cells = 10
 
     def run_scaling(self, loaded_train, loaded_test):
-        '''
+        """
         Transform input data by scaling numeric features.
 
         Args:
@@ -82,7 +82,7 @@ class ScaledPCA:
 
         Returns:
           dataframe: transformed input data of features for train and test data
-        '''
+        """
         data_all = pd.concat([loaded_train, loaded_test], ignore_index=True)
         cols_numeric = [feat for feat in list(data_all.columns) if feat not in ["sig_id", "cp_type", "cp_time", "cp_dose"]]
         mask = (data_all[cols_numeric].var() >= self.variance_threshold).values
@@ -94,7 +94,7 @@ class ScaledPCA:
         return data_all
 
     def run_pca(self, scaled_data_all):
-        '''
+        """
         Apply Principal Component Analysis (PCA) on gene expression and cell viability features of the input data respectively.
 
         Args:
@@ -102,7 +102,7 @@ class ScaledPCA:
 
         Returns:
           dataframe: input data of original features and principal component features for train and test data
-        '''
+        """
         GENES = [col for col in scaled_data_all.columns if col.startswith("g-")]
         CELLS = [col for col in scaled_data_all.columns if col.startswith("c-")]
 
@@ -116,7 +116,7 @@ class ScaledPCA:
         return concat_data_all
 
     def one_hot_encoding(self, concat_data_all):
-        '''
+        """
         One hot encode the categorical features for treatment time and treatment dosage of the input data respectively.
         Then for each observation, adds the sum, mean, standard deviation, kurtosis and skewedness of cell viability,
         gene expression and combined cell viability and gene expression data respectively as features.
@@ -126,7 +126,7 @@ class ScaledPCA:
 
         Returns:
           dataframe: input data of original and new features for train and test data
-        '''
+        """
         encoded_data_all = pd.get_dummies(concat_data_all, columns = ["cp_time", "cp_dose"])
 
         encoded_GENES = [col for col in encoded_data_all.columns if col.startswith("g-")]
@@ -142,16 +142,16 @@ class ScaledPCA:
 
 class Preprocess:
     def __init__(self):
-        '''
+        """
         Load features to drop from input data.
 
         Attributes:
           features_to_drop (arr): list of features to drop
-        '''
+        """
         self.features_to_drop = ["sig_id", "cp_type"]
 
     def gen_train_data(self, data_all, loaded_train, loaded_targets):
-        '''
+        """
         Generate training dataset.
 
         Args:
@@ -166,7 +166,7 @@ class Preprocess:
             [n_observations,n_features]
           arr: test inputs with dimensions
             [n_observations,n_features]
-        '''
+        """
         data_all.drop(self.features_to_drop, axis = 1, inplace = True)
         try:
             loaded_targets.drop("sig_id", axis = 1, inplace = True)
