@@ -14,7 +14,7 @@ git clone https://github.com/mingjiewong/Kaggle-MoA-Prediction-2020.git
 cd Kaggle-MoA-Prediction-2020
 ```
 
-Download raw data from Kaggle at ```https://www.kaggle.com/c/lish-moa/data``` and extract it:
+Download data from Kaggle at ```https://www.kaggle.com/c/lish-moa/data``` and extract it:
 ```
 mkdir {path-to-dir}/Kaggle-MoA-Prediction-2020/datasets
 cd {path-to-dir}/Kaggle-MoA-Prediction-2020/datasets
