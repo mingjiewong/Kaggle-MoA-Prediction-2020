@@ -4,8 +4,6 @@
 
 The repository contains solution, based on [TabNet](https://github.com/dreamquark-ai/tabnet), to the [MoA Prediction Competition](https://www.kaggle.com/c/lish-moa) held on Kaggle between Sep 3 and Dec 1, 2020. Check out my [profile](https://www.kaggle.com/mwong007)!
 
-![image](https://github.com/mingjiewong/Kaggle-MoA-Prediction-2020/blob/master/Figure1.png)
-
 ## Getting Started
 
 Clone the repo:
@@ -14,7 +12,7 @@ git clone https://github.com/mingjiewong/Kaggle-MoA-Prediction-2020.git
 cd Kaggle-MoA-Prediction-2020
 ```
 
-Download raw data from Kaggle at ```https://www.kaggle.com/c/lish-moa/data``` and extract it:
+Download data from Kaggle at ```https://www.kaggle.com/c/lish-moa/data``` and extract it:
 ```
 mkdir {path-to-dir}/Kaggle-MoA-Prediction-2020/datasets
 cd {path-to-dir}/Kaggle-MoA-Prediction-2020/datasets
